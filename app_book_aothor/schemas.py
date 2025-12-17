@@ -2,6 +2,7 @@
 from pydantic import BaseModel, field_validator
 from datetime import datetime
 
+
 class AuthorCreate(BaseModel):
     name: str
 
@@ -11,6 +12,11 @@ class AuthorRead(AuthorCreate):
     class Config:
         # orm_mode = True
         from_attributes = True
+
+    @field_validator("name")
+    @classmethod
+    def name_valid(cls, v):
+        return v.upper()
 
 class BookCreate(BaseModel):
     title: str
@@ -25,7 +31,6 @@ class BookCreate(BaseModel):
             raise ValueError("Published year should not be in the future")
         return v
 
-
 class BookRead(BookCreate):
     id: int
     author: AuthorRead
@@ -33,3 +38,8 @@ class BookRead(BookCreate):
     class Config:
         # orm_mode = True
         from_attributes = True
+
+    @field_validator('title')
+    @classmethod
+    def title_valid(cls, v:str) -> str:
+        return f"Book: {v}"

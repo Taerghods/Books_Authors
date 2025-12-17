@@ -6,10 +6,11 @@ import redis.asyncio as redis
 from app_book_author.utils.decorators import cached_resilient
 from app_book_author.utils.middleware import PerformanceMiddleware
 
+
 app = FastAPI(title="Bookstore API")
 app.add_middleware(PerformanceMiddleware)
 
-redis_client = redis.from_url("redis://localhost", decode_responses=True)
+redis_client = redis.from_url("redis://redis_db", decode_responses=True)
 
 @app.on_event("startup")
 async def startup():
@@ -27,6 +28,11 @@ async def create_author(author: schemas.AuthorCreate, db: AsyncSession = Depends
 @app.get("/authors/", response_model= list[schemas.AuthorRead])
 async def read_authors(db: AsyncSession = Depends(get_db)):
     return await crud.read_authors(db=db)
+
+@app.get("/authors/{author_id}")
+async def read_author(author_id: int, db: AsyncSession = Depends(get_db)):
+    author = await crud.get_author_by_id(db=db, author_id=author_id)
+    return author
 
 @app.post("/books/", response_model=schemas.BookRead)
 async def create_book(book: schemas.BookCreate, db: AsyncSession = Depends(get_db)):

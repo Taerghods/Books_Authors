@@ -2,6 +2,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 
+
 Base = declarative_base()
 
 class Author(Base):
@@ -9,7 +10,6 @@ class Author(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
     books = relationship("Book", back_populates="author")
-
 
 class Book(Base):
     __tablename__ = 'books'

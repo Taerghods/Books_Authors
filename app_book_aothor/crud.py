@@ -2,6 +2,14 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from . import models, schemas
+from collections import defaultdict
+
+
+# commit()      ذخیره دستور
+# cursor()      اجرای دستور
+# execute(select(models.Book).where(models.Book.author_id == 1))     ارسال دستور
+# fetchall()    دریافت دستور بدون اسم ستون  tuple
+# scalars().all()     دریافت دستور با اسم ستون  dict
 
 
 # --- Authors ---
@@ -24,6 +32,10 @@ async def update_author_name(db: AsyncSession, author_id: int, new_name: str):
         await db.refresh(author)
     return author
 
+async def get_author_by_id(db: AsyncSession, author_id: int):
+    result = await db.execute(select(models.Author).where(models.Author.id == author_id))
+    return result.scalars().first()
+
 # --- Books ---
 async def create_book(db: AsyncSession, book: schemas.BookCreate):
     db_book = models.Book(**book.model_dump())
@@ -42,3 +54,11 @@ async def delete_book(db: AsyncSession, book_id: int):
         await db.delete(book)
         await db.commit()
     return book
+
+async def get_books_count_by_author(db: AsyncSession):
+    result = await db.execute(select(models.Book))
+    all_books = result.scalars().all()
+    lst_books = defaultdict(list)
+    for book in all_books:
+        lst_books[book.author_id].append(book)
+    return lst_books
