@@ -1,4 +1,4 @@
-# Bookstore API
+# Bookstore (fastAPI)
 
 A scalable FastAPI service designed to handle high traffic (2M+ requests) using asynchronous patterns and intelligent caching.
 
