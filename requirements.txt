@@ -8,4 +8,12 @@ aiosqlite==0.22.0
 
 # pip install fastapi uvicorn sqlalchemy pydantic
 # uvicorn main:app --reload
+# uvicorn main:app --workers 4
 # http://127.0.0.1:8000/docs
+
+
+# docker-compose up --build
+
+
+# chmod +x setup.sh
+# ./setup.sh

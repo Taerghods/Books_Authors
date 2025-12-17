@@ -1,0 +1,23 @@
+# app_book_author/docker-compose.yml
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis_db:6379
+    depends_on:
+      - redis_db
+
+  redis_db:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  # اضافه کردن یک سرویس برای مشاهده لاگ‌ها (ساده شده)
+  dozzle:
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8888:8080"

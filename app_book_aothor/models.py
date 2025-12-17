@@ -1,4 +1,4 @@
-# fastAPI_book/models.py
+# app_book_author/models.py
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 

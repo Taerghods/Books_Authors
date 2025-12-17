@@ -1,4 +1,4 @@
-# fastAPI_book/schema.py
+# app_book_author/schema.py
 from pydantic import BaseModel, field_validator
 from datetime import datetime
 
