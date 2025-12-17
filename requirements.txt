@@ -1,0 +1,11 @@
+anyio==4.9.0
+fastapi==0.115.12
+pydantic==2.11.4
+SQLAlchemy==2.0.40
+uvicorn==0.34.2
+redis==7.1.0
+aiosqlite==0.22.0
+
+# pip install fastapi uvicorn sqlalchemy pydantic
+# uvicorn main:app --reload
+# http://127.0.0.1:8000/docs
