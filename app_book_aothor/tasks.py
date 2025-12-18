@@ -8,5 +8,5 @@ from app_book_author.dbs import engine
 def refresh_search_view():
     with engine.connect() as conn:
         # استفاده از CONCURRENTLY باعث می‌شود دیتابیس موقع آپدیت قفل نشود
-        conn.execute(text("REFRESH MATERIALIZED VIEW CONCURRENTLY search_results_view;"))
+        conn.execute(text("REFRESH MATERIALIZED VIEW CONCURRENTLY author_book_counts;"))
         conn.commit()

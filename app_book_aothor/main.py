@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 import redis.asyncio as redis
 from app_book_author.utils.decorators import cached_resilient
 from app_book_author.utils.middleware import PerformanceMiddleware
-
+from app_book_author.migration import create_materialized_view
 
 app = FastAPI(title="Bookstore API")
 app.add_middleware(PerformanceMiddleware)
@@ -14,8 +14,9 @@ redis_client = redis.from_url("redis://redis_db", decode_responses=True)
 
 @app.on_event("startup")
 async def startup():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    async with dbs.engine.begin() as conn:
+        await conn.run_sync(models.Base.metadata.create_all)   # اطمینان از ساخته شدن جداول
+    await create_materialized_view()    # بعد از ساخت جداول میره جدول اماده برای آمار رو هم میسازه
 
 async def get_db():
     async with dbs.AsyncSessionLocal() as session:

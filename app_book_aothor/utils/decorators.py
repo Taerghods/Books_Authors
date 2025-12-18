@@ -10,7 +10,7 @@ from fastapi.encoders import jsonable_encoder
 logger = logging.getLogger("cache_errors")
 redis_client = redis.from_url("redis://redis_db:6379", decode_responses=True)  # 👈 تغییر localhost به نام سرویس داکر
 
-def cached_resilient(expire_seconds: int = 60):
+def cached_resilient(expire_seconds: int = 300):
     def decorator(func):
         @functools.wraps(func)
         async def wrapper(*args, **kwargs):
