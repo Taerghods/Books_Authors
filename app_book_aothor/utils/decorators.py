@@ -3,7 +3,8 @@ import logging
 import functools
 import json
 import redis.asyncio as redis
-from app_book_author import schemas  # 👈 اضافه کردن این خط ضروری است
+from app_book_author import schemas
+from fastapi.encoders import jsonable_encoder
 
 
 logger = logging.getLogger("cache_errors")

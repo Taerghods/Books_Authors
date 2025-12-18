@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from models import Base
 
 
+# SQLALCHEMY_DATABASE_URL = "postgresql+asyncpg://user:pass@db_host/dbname"
 SQLALCHEMY_DATABASE_URL = 'sqlite+aiosqlite:///./books.db'
 
 engine = create_async_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}, echo=True)

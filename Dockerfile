@@ -1,4 +1,4 @@
-# Dockerfile.py
+# Dockerfile
 # استفاده از نسخه سبک پایتون
 FROM python:3.11-slim
 

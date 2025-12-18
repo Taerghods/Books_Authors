@@ -1,4 +1,4 @@
-#app_book_author/Dockerfile.py
+#app_book_author/Dockerfile
 # استفاده از نسخه سبک پایتون
 FROM python:3.11-slim
 
