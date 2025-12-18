@@ -59,3 +59,8 @@ async def read_book(book_id:int, db:AsyncSession = Depends(get_db)):
     if not book:
         raise HTTPException(status_code=404, detail="book not found")
     return book
+
+@app.get("books_by_author", response_model=list[schemas.BookRead])
+@cached_resilient(expire_seconds=300)
+async def get_books_by_author_id(author_id:int, db:AsyncSession = Depends(get_db)):
+    return await crud.get_books_by_author_id(db=db, author_id=author_id)

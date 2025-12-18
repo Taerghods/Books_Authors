@@ -25,19 +25,15 @@ def cached_resilient(expire_seconds: int = 60):
             result = await func(*args, **kwargs)
 
             # تبدیل اشیاء SQLAlchemy به فرمت قابل سریال‌سازی (JSON Friendly)
-            try:
-                if isinstance(result, list):
-                    serializable_result = [schemas.BookRead.model_validate(r).model_dump() for r in result]
-                else:
-                    serializable_result = schemas.BookRead.model_validate(result).model_dump()
+            if result is not None:
+                try:
+                    serializable_result = jsonable_encoder(result)
+                    # ذخیره داده تبدیل شده در ردیس
+                    await redis_client.setex(cache_key, expire_seconds, json.dumps(serializable_result))
 
-                # ذخیره داده تبدیل شده در ردیس
-                await redis_client.setex(cache_key, expire_seconds, json.dumps(serializable_result))
-            except Exception as e:
-                logger.error(f"Failed to serialize or save to Redis: {e}")
+                except Exception as e:
+                    logger.error(f"Failed to serialize or save to Redis: {e}")
 
             return result
-
         return wrapper
-
     return decorator
